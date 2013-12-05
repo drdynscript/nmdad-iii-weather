@@ -1,0 +1,12 @@
+{{weather.main.temp}}
+
+        <img src='http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png' />
+
+<div class='climaiconfs {{getClimaCon(weather.weather[0].id)}}'></div>
+
+<div class='climatempfs'>{{weather.main.temp}}</div>
+
+        <div class="wind">
+            <div class='climaiconfs climacon wind'></div>
+            <div class='climawindfs'>{{weather.wind.speed}} kph</div>
+        </div>

@@ -1,0 +1,60 @@
+/*
+    Webfonts
+    =====================================================================================
+*/
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600);
+
+/*
+    Global Styles
+    =====================================================================================
+*/
+html, body{
+    height:100%;
+    min-height:100%;
+    font: 18px/1.42 'Open Sans', sans-serif;
+    color:#fff;
+}
+body{
+    background:#008A00;
+}
+
+/*
+    Bootstrap3 Adjustments
+    =====================================================================================
+*/
+.row{
+    margin-bottom:12px;
+}
+.row:last-of-type{
+    margin-bottom:0;
+}
+a.list-group-item:nth-of-type(even){
+    background-color:#e6e6e6;
+}
+
+/*
+    Preloader styles
+    =====================================================================================
+*/
+.preloader{
+    height:100%;
+    width:100%;
+    position:relative;
+}
+.preloader-indicator{
+    position:absolute;
+    width:120px;
+    height:60px;
+    left:50%;
+    top:50%;
+    margin-left:-60px;
+    margin-top:-30px;
+}
+
+/*
+    Climacons Fonts
+    =====================================================================================
+*/
+.climaiconfs, .climawindfs, .climatempfs{
+    font-size:6rem;
+}

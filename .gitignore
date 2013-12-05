@@ -1,0 +1,5 @@
+# Grunt Node Modules
+node_modules
+
+# PHP Storm Ide
+.idea
