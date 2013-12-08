@@ -9,7 +9,9 @@
         $scope.getClimaCon = function(iconId){
             switch(iconId){
                 case 801:
-                    return 'climafontsize climacon cloud sun';
+                    return ' climacon cloud sun';
+                case 804:
+                    return ' climacon cloud';
                 default:
                     return ' climacon sun'
             }

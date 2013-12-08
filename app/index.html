@@ -25,12 +25,13 @@
         <div class="preloader-indicator"><img src="content/images/preloader.gif" /><br />PRELOADING...</div>
     </div>
 
-    <div class="container ddsContainer" ng-show="appInitialized">
+    <div class="wrapper" ng-show="appInitialized">
         <div ng-view></div>
     </div>
 
     <!-- jQUERY JS -->
     <script src="components/jquery/jquery.js"></script>
+    <script src="components/jquery/jquery-dateFormat.min.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="components/bootstrap/dist/js/bootstrap.js"></script>
@@ -56,5 +57,6 @@
     <!-- Application JS -->
     <script src="scripts/controllers/MainCtrl.js"></script>
     <script src="scripts/services/WeatherSrvc.js"></script>
+    <script src="scripts/common/filters/WeatherFltr.js"></script>
 </body>
 </html>

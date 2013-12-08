@@ -14,6 +14,7 @@ angular.module('LocalStorageModule').value('prefix', 'dds_scholen');
 angular.module('ddsApp.controllers', []);
 angular.module('ddsApp.services', []);
 angular.module('ddsApp.directives', []);
+angular.module('ddsApp.filters', []);
 
 var app = angular.module('ddsApp', [
     'ngRoute',
@@ -21,6 +22,7 @@ var app = angular.module('ddsApp', [
     'ddsApp.controllers',
     'ddsApp.services',
     'ddsApp.directives',
+    'ddsApp.filters',
     'LocalStorageModule'
 ])
 .config(['$routeProvider','$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider){
@@ -31,7 +33,7 @@ var app = angular.module('ddsApp', [
             templateUrl:'views/main.html',
             controller:'ddsApp.controllers.MainCtrl',
             resolve: {
-                weather: appCtrl.loadWeather
+                weather: appCtrl.loadLocalWeather
             }
         });
 
@@ -89,12 +91,19 @@ appCtrl.loadConfiguration = ['$rootScope', '$q', '$timeout', 'ddsApp.services.We
 
     return deferred.promise;
 }];
-appCtrl.loadWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', function($rootScope, $q, WeatherSrvc){
+appCtrl.loadLocalWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', function($rootScope, $q, WeatherSrvc){
     var deferred = $q.defer();
-
-    WeatherSrvc.loadWeather(51.054398, 3.725224, 'metric').then(
+    
+    WeatherSrvc.getGEOLocation().then(
         function(data){
-            deferred.resolve(data);
+            WeatherSrvc.loadWeather(data.coords.latitude, data.coords.longitude, 'metric').then(
+                function(data){
+                    deferred.resolve(data);
+                },
+                function(error){
+                    deferred.reject(error);
+                }
+            );
         },
         function(error){
             deferred.reject(error);

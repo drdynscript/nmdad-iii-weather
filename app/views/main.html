@@ -1,12 +1,55 @@
-{{weather.main.temp}}
-
-        <img src='http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png' />
-
-<div class='climaiconfs {{getClimaCon(weather.weather[0].id)}}'></div>
-
-<div class='climatempfs'>{{weather.main.temp}}</div>
-
-        <div class="wind">
-            <div class='climaiconfs climacon wind'></div>
-            <div class='climawindfs'>{{weather.wind.speed}} kph</div>
+<div class="container weather-front">
+    <div class="row">
+        <section class="col-xs-12 weather-location">
+        </section>
+    </div>
+    <div class="row">
+        <section class="col-xs-6 weather-id {{getClimaCon(weather.weather[0].id)}}">        
+        </section>
+        <section class="col-xs-6 weather-temp">
+            {{weather.main.temp | WeatherValueFltr:0}}°
+        </section>
+    </div>
+    <div class="row weather-humidity">
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon umbrella"></span>
+            {{weather.main.humidity | WeatherValueFltr:0}}%
+            </div>
         </div>
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon"></span>
+            {{weather.main.pressure}}mbar
+            </div>
+        </div>
+    </div>
+    <div class="row weather-wind">
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon wind"></span>
+            {{weather.wind.speed | WeatherValueFltr:0}}kph
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon compass north"></span>
+            {{weather.wind.deg}}°
+            </div>
+        </div>
+    </div>
+    <div class="row weather-sunriseandsunset">
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon sunrise"></span>
+            {{weather.sys.sunrise | WeatherDateFilter:'HH:mm'}}
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="col-inner">
+            <span class="climacon sunset"></span>
+            {{weather.sys.sunset | WeatherDateFilter:'HH:mm'}}
+            </div>
+        </div>
+    </div>
+</div>

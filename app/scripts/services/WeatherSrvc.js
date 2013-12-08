@@ -8,8 +8,9 @@
         var URLWEATHER = 'http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&mode=json&units={2}&callback=JSON_CALLBACK';
 
         var MSGWEATHERLOADERROR = 'Could not load the Weather call';
+        var MSGGEOLOCATIONNOTSUPPORTED = 'GEO Location not supported';
 
-        var _configuration;
+        var _configuration, _geoPosition;
 
         var that = this;//Hack for calling private functions and variables in the return statement
 
@@ -32,6 +33,26 @@
                         deferred.reject(MSGWEATHERLOADERROR);
                     });
 
+                return deferred.promise;//Always return a promise
+            },
+            getGEOLocation : function(){
+                var deferred = $q.defer();
+                
+                if(Modernizr.geolocation){
+                    navigator.geolocation.getCurrentPosition(
+                        function(position){
+                            _geoPosition = position;
+                            deferred.resolve(position);
+                        },
+                        function(error){
+                            deferred.reject(MSGGEOLOCATIONNOTSUPPORTED);
+                        },
+                        {timeout:10000,enableHighAccuracy:true}
+                    );
+                }else{
+                    deferred.reject(MSGGEOLOCATIONNOTSUPPORTED);
+                }
+                
                 return deferred.promise;//Always return a promise
             }
         };
