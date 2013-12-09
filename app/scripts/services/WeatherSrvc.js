@@ -33,18 +33,18 @@
             switch(error){
                 //Timeout
                 case 3:
-                    this.geoLocation();
+                    geoLocation();
                     break;
                     //POSITION UNAVAILABLE
                 case 2:
-                    this.geoLocation();
+                    geoLocation();
                     break;
                     //PERMISSION DENIED --> FALLBACK
                 case 1:
-                    this.geoLocationFallback();
+                    geoLocationFallback();
                     break;
                 default:
-                    this.geoLocation();
+                    geoLocation();
                 break;
             }
         };
