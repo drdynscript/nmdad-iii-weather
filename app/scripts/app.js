@@ -96,6 +96,7 @@ appCtrl.loadLocalWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', f
     
     WeatherSrvc.getGEOLocation().then(
         function(data){
+            console.log(data);
             WeatherSrvc.loadWeather(data.coords.latitude, data.coords.longitude, 'metric').then(
                 function(data){
                     deferred.resolve(data);
@@ -106,7 +107,9 @@ appCtrl.loadLocalWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', f
             );
         },
         function(error){
+            console.log(error);
             deferred.reject(error);
+
         }
     );
 

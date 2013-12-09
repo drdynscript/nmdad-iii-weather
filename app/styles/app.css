@@ -74,7 +74,7 @@ a.list-group-item:nth-of-type(even){
 */
 .weather-location{
     text-transform: uppercase;
-    font-size:32px;
+    font-size:28px;
 }
 .weather-temp{
     text-align:center;
@@ -102,7 +102,7 @@ a.list-group-item:nth-of-type(even){
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px){
     .weather-location{
-        font-size:116px;
+        font-size:96px;
     }
     .weather-temp{
         font-size:224px;
