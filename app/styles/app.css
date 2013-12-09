@@ -55,35 +55,96 @@ a.list-group-item:nth-of-type(even){
     Wrapper and other containers
     =====================================================================================
 */
-
+.weather-front .row .row{
+    margin-right:0;
+    margin-left:0;
+    background:#007A00;
+}
+.weather-front .row .row div:nth-of-type(odd){
+    text-align:right;
+}
+.weather-front .row .row div:nth-of-type(even){
+    text-align:left;
+}
 
 
 /*
-    Climacons Fonts
+    Weather styles
     =====================================================================================
 */
-.climaiconfs, .climawindfs, .climatempfs{
-    font-size:6rem;
+.weather-location{
+    text-transform: uppercase;
+    font-size:32px;
 }
-.weather-front .weather-id{
-    text-align:right;
-    font-size:256px;
+.weather-temp{
+    text-align:center;
+    font-size:98px;
 }
-.weather-front .weather-temp{
-    text-align:left;
-    font-size:224px;
+.weather-id{
+    text-align:center;
+    font-size:128px;
 }
 .weather-humidity, 
 .weather-wind,
 .weather-sunriseandsunset{
     text-align:center;
-    font-size:42px;
-}
-.col-inner{
-    background:#007A00;
+    font-size:18px;
+    line-height:32px;
 }
 .weather-humidity .climacon,
 .weather-wind .climacon,
 .weather-sunriseandsunset .climacon{
-    font-size:64px;  
+    text-align:left;
+    font-size:32px;
+    line-height:32px;
+}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px){
+    .weather-location{
+        font-size:116px;
+    }
+    .weather-temp{
+        font-size:224px;
+    }
+    .weather-id{
+        font-size:256px;
+    }
+    .weather-humidity,
+    .weather-wind,
+    .weather-sunriseandsunset{
+        font-size:36px;
+        line-height:64px;
+    }
+    .weather-humidity .climacon,
+    .weather-wind .climacon,
+    .weather-sunriseandsunset .climacon{
+        font-size:64px;
+        line-height:64px;
+    }
+}
+
+/* Landscape phone to portrait tablet */
+@media (min-width: 481px) and (max-width: 767px) {
+    .weather-location{
+        font-size:48px;
+    }
+    .weather-temp{
+        font-size:148px;
+    }
+    .weather-id{
+        font-size:192px;
+    }
+    .weather-humidity,
+    .weather-wind,
+    .weather-sunriseandsunset{
+        font-size:27px;
+        line-height:48px;
+    }
+    .weather-humidity .climacon,
+    .weather-wind .climacon,
+    .weather-sunriseandsunset .climacon{
+        font-size:48px;
+        line-height:48px;
+    }
 }
