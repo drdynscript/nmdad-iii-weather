@@ -14,6 +14,7 @@ angular.module('LocalStorageModule').value('prefix', 'dds_scholen');
 angular.module('ddsApp.controllers', []);
 angular.module('ddsApp.services', []);
 angular.module('ddsApp.directives', []);
+angular.module('ddsApp.filters', []);
 
 var app = angular.module('ddsApp', [
     'ngRoute',
@@ -21,6 +22,7 @@ var app = angular.module('ddsApp', [
     'ddsApp.controllers',
     'ddsApp.services',
     'ddsApp.directives',
+    'ddsApp.filters',
     'LocalStorageModule'
 ])
 .config(['$routeProvider','$locationProvider', '$httpProvider', function($routeProvider, $locationProvider, $httpProvider){
@@ -31,7 +33,7 @@ var app = angular.module('ddsApp', [
             templateUrl:'views/main.html',
             controller:'ddsApp.controllers.MainCtrl',
             resolve: {
-                weather: appCtrl.loadWeather
+                weather: appCtrl.loadLocalWeather
             }
         });
 
@@ -89,12 +91,19 @@ appCtrl.loadConfiguration = ['$rootScope', '$q', '$timeout', 'ddsApp.services.We
 
     return deferred.promise;
 }];
-appCtrl.loadWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', function($rootScope, $q, WeatherSrvc){
+appCtrl.loadLocalWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', function($rootScope, $q, WeatherSrvc){
     var deferred = $q.defer();
-
-    WeatherSrvc.loadWeather(51.054398, 3.725224, 'metric').then(
+    
+    WeatherSrvc.getGEOLocation().then(
         function(data){
-            deferred.resolve(data);
+            WeatherSrvc.loadWeather(data.coords.latitude, data.coords.longitude, 'metric').then(
+                function(data){
+                    deferred.resolve(data);
+                },
+                function(error){
+                    deferred.reject(error);
+                }
+            );
         },
         function(error){
             deferred.reject(error);
@@ -107,10 +116,41 @@ appCtrl.loadWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', functi
 (function(){
     'use strict';
 
+    var filters = angular.module('ddsApp.filters');
+
+    filters.filter('WeatherValueFltr',function(){
+        return function(value, trailingdecimals) {
+            var v = parseFloat(value);
+            return v.toFixed(trailingdecimals);
+        };
+    });
+    
+    filters.filter('WeatherDateFilter',function(){
+        return function(value, dateFormat) {
+            var date = new Date(value*1000);
+            return $.format.date(date, dateFormat);
+        };
+    });    
+    
+})();
+(function(){
+    'use strict';
+
     var controllers = angular.module('ddsApp.controllers');
 
     controllers.controller('ddsApp.controllers.MainCtrl',['$scope', 'weather', function($scope, weather){
-        console.log(weather);
+        $scope.weather = weather;
+
+        $scope.getClimaCon = function(iconId){
+            switch(iconId){
+                case 801:
+                    return ' climacon cloud sun';
+                case 804:
+                    return ' climacon cloud';
+                default:
+                    return ' climacon sun';
+            }
+        };
     }]);
 })();
 
@@ -124,8 +164,9 @@ appCtrl.loadWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', functi
         var URLWEATHER = 'http://api.openweathermap.org/data/2.5/weather?lat={0}&lon={1}&mode=json&units={2}&callback=JSON_CALLBACK';
 
         var MSGWEATHERLOADERROR = 'Could not load the Weather call';
+        var MSGGEOLOCATIONNOTSUPPORTED = 'GEO Location not supported';
 
-        var _configuration;
+        var _configuration, _geoPosition;
 
         var that = this;//Hack for calling private functions and variables in the return statement
 
@@ -148,6 +189,26 @@ appCtrl.loadWeather = ['$rootScope', '$q', 'ddsApp.services.WeatherSrvc', functi
                         deferred.reject(MSGWEATHERLOADERROR);
                     });
 
+                return deferred.promise;//Always return a promise
+            },
+            getGEOLocation : function(){
+                var deferred = $q.defer();
+                
+                if(Modernizr.geolocation){
+                    navigator.geolocation.getCurrentPosition(
+                        function(position){
+                            _geoPosition = position;
+                            deferred.resolve(position);
+                        },
+                        function(error){
+                            deferred.reject(MSGGEOLOCATIONNOTSUPPORTED);
+                        },
+                        {timeout:10000,enableHighAccuracy:true}
+                    );
+                }else{
+                    deferred.reject(MSGGEOLOCATIONNOTSUPPORTED);
+                }
+                
                 return deferred.promise;//Always return a promise
             }
         };

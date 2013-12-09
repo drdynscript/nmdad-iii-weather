@@ -13,8 +13,8 @@
                 case 804:
                     return ' climacon cloud';
                 default:
-                    return ' climacon sun'
+                    return ' climacon sun';
             }
-        }
+        };
     }]);
 })();

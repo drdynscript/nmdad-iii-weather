@@ -23,6 +23,7 @@
     "console":true,
     "_":true,
     "L":true,
-    "appCtrl":true
+    "appCtrl":true,
+    "Modernizr": true
   }
 }
